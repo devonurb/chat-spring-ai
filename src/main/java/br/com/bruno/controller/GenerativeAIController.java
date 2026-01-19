@@ -5,12 +5,14 @@ import br.com.bruno.service.ImageService;
 import br.com.bruno.service.RecipeService;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/ai")
 public class GenerativeAIController {
 
     private final ChatService chatService;
@@ -26,24 +28,24 @@ public class GenerativeAIController {
         this.imageService = imageService;
     }
 
-    @GetMapping("ask-ai")
+    @GetMapping("/ask-ai")
     public String getResponse(@RequestParam String prompt) {
         return chatService.getResponse(prompt);
     }
 
-    @GetMapping("ask-ai-options")
+    @GetMapping("/ask-ai-options")
     public String getResponseWithOptions(@RequestParam String prompt) {
         return chatService.getResponseWithOptions(prompt);
     }
 
-    @GetMapping("recipe-creator")
+    @GetMapping("/recipe-creator")
     public String recipeCreator(@RequestParam String ingredients,
                                 @RequestParam(defaultValue = "any") String cuisine,
                                 @RequestParam(defaultValue = "none") String dietaryRestrictions) {
         return recipeService.createRecipe(ingredients, cuisine, dietaryRestrictions);
     }
 
-    @GetMapping("generate-image")
+    @GetMapping("/generate-image")
     public List<String> generateImages(@RequestParam String prompt,
                                       @RequestParam(defaultValue = "hd") String quality,
                                       @RequestParam(defaultValue = "1") Integer n,
